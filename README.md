@@ -38,7 +38,7 @@ user: sa
 password: sqlcoNgoc4@
 ```
     
-    Vào thư mục backend, chạy NghienDT_MSSQL.sql.
+Vào thư mục backend, chạy NghienDT_MSSQL.sql.
 
 ### 5. Khởi động lại container
 

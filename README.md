@@ -25,18 +25,18 @@ cd LaptopEcommerceWebFullStack
 
 ### 2. Chạy dự án với docker
 
-    ```bash
-    docker-compose up --build
-    ```
+```bash
+docker-compose up --build
+```
 
 ### 4. Chạy database
 
 Sử dụng một công cụ quản lí database, truy cập vào Microsoft SQL Server:
 
-    ```
-    user: sa
-    password: sqlcoNgoc4@
-    ```
+```
+user: sa
+password: sqlcoNgoc4@
+```
     
     Vào thư mục backend, chạy NghienDT_MSSQL.sql.
 

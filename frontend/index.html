@@ -1,0 +1,402 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>NghienDT - Trang thương mại điện tử hàng đầu Việt Nam</title>
+    <meta name="referrer" content="no-referrer">
+    <meta name="author" content="Nghien Team" />
+    <meta name="robots" content="noodp,index,follow" />
+    <meta http-equiv="content-language" content="vi" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description"
+        content="NghienDT là trang thương mại điện tử chuyên mua bán máy tính, laptop, điện thoại." />
+    <meta name="keywords" content="NghienDT là trang thương mại điện tử chuyên mua bán máy tính, laptop, điện thoại." />
+    <!-- Twitter data -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="http://nghiendt.me">
+    <meta name="twitter:image" content="assets/img/nghiendt.png">
+    <meta name="twitter:title" content="NghienDT - Trang thương mại điện tử hàng đầu Việt Nam">
+    <meta name="twitter:description" content="NghienDT - Trang thương mại điện tử hàng đầu Việt Nam">
+    <!-- Open Graph data -->
+    <meta property="og:title" content="NghienDT - Trang thương mại điện tử hàng đầu Việt Nam" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://nghiendt.me" />
+    <meta property="og:image" content="assets/img/nghiendt.png" />
+    <meta property="og:description" content="NghienDT - Trang thương mại điện tử hàng đầu Việt Nam" />
+    <meta property="og:site_name" content="NghienDT - Trang thương mại điện tử hàng đầu Việt Nam" />
+
+    <link href="assets/img/icon/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/plugins.min.css" rel="stylesheet">
+    <link href="assets/css/style.min.css" rel="stylesheet">
+    <link href="assets/css/responsive.min.css" rel="stylesheet">
+</head>
+
+<body ng-app="myApp" ng-controller="index-ctrl">
+
+    <header class="header-pos">
+        <div class="header-top black-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8 col-12">
+                        <div class="header-top-left">
+                            <ul>
+                                <li><span>Email: </span>nghienecomm@gmail.com</li>
+                                <li>Giao hàng miễn phí cho tất cả đơn hàng.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        <div class="box box-right">
+                            <ul>
+                                <li class="settings">
+                                    <button type="button" class="ha-toggle">
+                                        Ngôn ngữ <span class="lnr lnr-chevron-down"></span>
+                                    </button>
+                                    <ul class="box-dropdown ha-dropdown" style="display: none;">
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="doGTranslate('vi|vi');return false;">
+                                                <img src="assets/img/icon/vi.png"> Tiếng Việt
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" onclick="doGTranslate('vi|en');return false;">
+                                                <img src="assets/img/icon/en.png"> Tiếng Anh
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div id="google_translate_element2"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-5 col-sm-5 col-12">
+                        <div class="logo">
+                            <a href="#!">
+                                <img src="assets/img/logo/logo-sm.png" alt="brand-logo">
+                                <img src="assets/img/logo/logo.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-12 order-sm-last">
+                        <div class="header-middle-inner">
+                            <form>
+                                <input type="text" ng-model="searchN" class="top-cat-field"
+                                    placeholder="Tìm kiếm mọi thứ ở đây..">
+                                <a href="#!shop/search/{{searchN}}"><button class="top-search-btn">Tìm kiếm</button></a>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-7 col-12 col-sm-7 order-lg-last">
+                        <div class="mini-cart-option">
+                            <ul>
+                                <li class="wishlist mr-2">
+                                    <a class="ha-toggle" href="#!wishlist">
+                                        <span class="lnr lnr-heart"></span>
+                                        <span class="count">0</span>Yêu thích
+                                    </a>
+                                </li>
+                                <li class="my-cart">
+                                    <button class="ha-toggle">
+                                        <span class="lnr lnr-cart"></span>
+                                        <span class="count">{{cart.size}}</span>Giỏ hàng
+                                    </button>
+                                    <ul class="mini-cart-drop-down ha-dropdown" ng-if="cart.size > 0">
+                                        <li ng-repeat="(key, item) in cart.values">
+                                            <table class="table table-borderless">
+                                                <td class="cart-img">
+                                                    <a class="text-break" href="#!product">
+                                                        <img ng-src="{{item.image}}" referrerpolicy="no-referrer">
+                                                    </a>
+                                                </td>
+                                                <td class="cart-info">
+                                                    <a class="text-reset" href="#!product">{{item.name}}</a>
+                                                    <span>{{item.quantity}} x</span> {{item.price|number:0}}₫
+                                                </td>
+                                                <td class="text-end">
+                                                    <div class="del-icon btn p-0" ng-click="removeCartItem(item)">
+                                                        <i class="fa fa-times-circle"></i>
+                                                    </div>
+                                                </td>
+                                            </table>
+                                        </li>
+                                        <li>
+                                            <div class="subtotal-text">Tổng:</div>
+                                            <div class="subtotal-price">
+                                                <span class="text-danger">{{cart.total|number:0}}₫</span>
+                                            </div>
+                                        </li>
+                                        <li class="mt-30">
+                                            <a class="cart-button" href="#!cart">Xem giỏ hàng</a>
+                                        </li>
+                                        <li>
+                                            <a class="cart-button" href="#!checkout">Thanh toán</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="mini-cart-drop-down ha-dropdown" ng-if="cart.size == 0">
+                                        <span class=" col-lg-6 col-md-12 col-12 text-center ">
+                                            <img src="	https://codescandy.com/coach/rtl/assets/images/bag.svg" alt=""
+                                                class="img-fluid mb-4">
+                                            <h5>Giỏ hàng của bạn hiện đang trống</h5>
+                                            <div class="d-flex justify-content-center">
+                                                <a href="#!/shop" class="cart-button mt-30">Mua thôi</a>
+                                            </div>
+                                        </span>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-top-menu theme-bg sticker">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="top-main-menu">
+                            <div class="categories-menu-bar">
+                                <div class="categories-menu-btn ha-toggle">
+                                    <div class="left">
+                                        <i class="lnr lnr-text-align-left"></i>
+                                        <span>Danh mục</span>
+                                    </div>
+                                    <div class="right">
+                                        <i class="lnr lnr-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <nav class="categorie-menus ha-dropdown">
+                                    <ul id="menu2">
+                                        <li ng-repeat="item in cates">
+                                            <a href="#!shop">
+                                                {{item.name}} <span class="lnr lnr-chevron-right"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="main-menu">
+                                <nav id="mobile-menu">
+                                    <ul>
+                                        <li>
+                                            <a href="#!">Trang chủ</a>
+                                        </li>
+                                        <li>
+                                            <a href="#!shop">Cửa hàng</a>
+                                        </li>
+                                        <li><a href="#!contact-us">Liên hệ</a></li>
+                                        <li>
+                                            <a href="#" onclick="return false;">Tài khoản<span
+                                                    class="lnr lnr-chevron-down"></span></a>
+                                            <ul class="dropdown">
+                                                <span ng-hide="isAuthed()">
+                                                    <li style="background-color: #e0ffe5;"><a style="color: #000;">Xin
+                                                            chào, <b>Khách</b></a></li>
+                                                    <li><a href="#!login">Đăng nhập</a></li>
+                                                    <li><a href="#!register">Đăng ký</a></li>
+                                                    <li><a href="#!forgot-password">Quên mật
+                                                            khẩu?</a>
+                                                    </li>
+                                                </span>
+                                                <span ng-show="isAuthed()">
+                                                    <li style="background-color: #e0ffe5;"><a style="color: #000;">Xin
+                                                            chào, <b>{{currentUser}}</b></a></li>
+                                                    <li><a href="/admin" ng-if="currentUser == 'admin'">Bảng quản
+                                                            trị</a></li>
+                                                    <li><a href="#!my-account">Tài khoản</a></li>
+                                                    <li><a href="" ng-click="logout()">Đăng xuất</a>
+                                                    </li>
+                                                </span>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="header-call-action">
+                                <p><span class="lnr lnr-phone"></span>Hotline: <strong>011-234-5678</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-block d-lg-none">
+                        <div class="mobile-menu"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div ng-view></div>
+
+    <!-- scroll to top -->
+    <div class="scroll-top not-visible">
+        <i class="fa fa-angle-up"></i>
+    </div> <!-- /End Scroll to Top -->
+
+    <!-- footer area start -->
+    <footer>
+        <!-- news-letter area start -->
+        <div class="newsletter-group">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="newsletter-box">
+                            <div class="newsletter-inner">
+                                <div class="newsletter-title">
+                                    <h3>Đăng ký để nhận tin mới</h3>
+                                </div>
+                                <div class="newsletter-box">
+                                    <form id="mc-form">
+                                        <input type="email" id="mc-email" autocomplete="off" class="email-box"
+                                            placeholder="Email của bạn">
+                                        <button class="newsletter-btn" type="submit" id="mc-submit">Gửi !</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="link-follow">
+                                <a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
+                                <a href="https://plus.google.com/discover"><i class="fa fa-google-plus"></i></a>
+                                <a href="https://twitter.com"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a>
+                            </div>
+                        </div>
+                        <!-- mailchimp-alerts Start -->
+                        <div class="mailchimp-alerts">
+                            <div class="mailchimp-submitting"></div><!-- mailchimp-submitting end -->
+                            <div class="mailchimp-success"></div><!-- mailchimp-success end -->
+                            <div class="mailchimp-error"></div><!-- mailchimp-error end -->
+                        </div><!-- mailchimp-alerts end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- news-letter area end -->
+        <!-- footer top area start -->
+        <div class="footer-top">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="footer-single-widget">
+                            <div class="widget-title">
+                                <div class="footer-logo mb-30">
+                                    <a href="#!">
+                                        <img src="assets/img/logo/logo-sm.png" alt="brand-logo">
+                                        <img src="assets/img/logo/logo.png">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <p>NghienDT là nền tảng mua sắm trực tuyến hàng đầu ở Việt Nam. Với sự đảm bảo của
+                                    NghienDT, bạn sẽ mua hàng trực tuyến an tâm và nhanh chóng hơn bao giờ hết!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6">
+                        <div class="footer-single-widget">
+                            <div class="widget-title">
+                                <h4>Về NghienDT</h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="footer-useful-link">
+                                    <ul>
+                                        <li><a href="javascript:void(0);">Giới thiệu</a></li>
+                                        <li><a href="javascript:void(0);">Điều khoản sử dụng</a></li>
+                                        <li><a href="javascript:void(0);">Chính sác bảo mật</a></li>
+                                        <li><a href="javascript:void(0);">Quy định cần biết</a></li>
+                                        <li><a href="javascript:void(0);">Liên hệ hỗ trợ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6">
+                        <div class="footer-single-widget">
+                            <div class="widget-title">
+                                <h4>Hỗ trợ khách hàng</h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="footer-useful-link">
+                                    <ul>
+                                        <li><a href="javascript:void(0);">Cách thức thanh toán</a></li>
+                                        <li><a href="javascript:void(0);">Trả hàng & hoàn tiền</a></li>
+                                        <li><a href="javascript:void(0);">Chính sách mua hàng</a></li>
+                                        <li><a href="javascript:void(0);">Chính sách bảo hành</a></li>
+                                        <li><a href="javascript:void(0);">Vận chuyển hàng</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="footer-single-widget">
+                            <div class="widget-title">
+                                <h4>Liên hệ</h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="footer-useful-link">
+                                    <ul>
+                                        <li><span>Địa chỉ:</span> Toà nhà Innovation, lô 24, Công viên phần mềm Quang
+                                            Trung, Quận 12, Hồ Chí Minh</li>
+                                        <li><span>Email:</span> nghienecomm@gmail.com</li>
+                                        <li><span>Điện thoại:</span> (028) 3526 8799 – (028) 62523434</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="footer-bottom-content">
+                            <div class="footer-copyright">
+                                <p>&copy; 2022 Bản quyền thuộc về <b>NghienDT</b></p>
+                            </div>
+                            <div class="footer-custom-link">
+                                <div class="payment-method">
+                                    <img src="assets/img/payment/payment.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/plugins.min.js"></script>
+    <script type="text/javascript" src="assets/js/custom.min.js"></script>
+    <script type="text/javascript" src="assets/js/main.min.js"></script>
+    <script type="text/javascript" src="assets/ctrl/app-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/app-services.js"></script>
+    <script type="text/javascript" src="assets/ctrl/index-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/cart-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/order-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/home-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/product-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/user-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/wishlist-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/checkout-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/shop-controller.js"></script>
+    <script type="text/javascript" src="assets/ctrl/shopsearch-controller.js"></script>
+
+    <script type="text/javascript" src="https://bit.ly/ui-bootstrap-tpls"></script>
+    <script type="text/javascript" src="https://bit.ly/googleTranslateElementInit2"></script>
+</body>
+
+</html>

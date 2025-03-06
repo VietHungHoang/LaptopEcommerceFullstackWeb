@@ -1,0 +1,105 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">Doanh thu bán hàng</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Trang chủ</li>
+                            <li class="breadcrumb-item">Thống kê</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="col-form-label">Thời gian</label>
+                        <select ng-model="search.year" ng-options="year for year in years | orderBy: '-year'"
+                            class="custom-select" name="example" ng-change="filterByYear()">
+                            <option value="">Tất cả</option>
+                        </select>
+                        <label class="font-12">Lựa chọn để hiện thị chi tiết</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="col-form-label">Danh mục</label>
+                        <select ng-model="search.category" ng-options="cate as cate.name for cate in categories"
+                            class="custom-select" name="example" ng-change="log()">
+                            <option value="">Tất cả</option>
+                        </select>
+                        <label class="font-12">Lựa chọn để hiện thị chi tiết</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="col-form-label">Hãng sản xuất</label>
+                        <select ng-model="search.company" ng-options="com as com.name for com in companies"
+                            class="custom-select" name="example">
+                            <option value="">Tất cả</option>
+                        </select>
+                        <label class="font-12">Lựa chọn để hiện thị chi tiết</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <div class="row my-3">
+                        <div class="col-sm-6 form-inline justify-content-start">
+                            <label class="pr-2">Tìm kiếm:</label>
+                            <input type="text" class="form-control" ng-model="search.name"
+                                placeholder="Nhập tìm kiếm..." />
+                        </div>
+                        <div class="col-sm-6 form-inline justify-content-end">
+                            <button type="button" class="btn btn-sm btn-secondary" id="saveAsExcel">
+                                <i class="fa-regular fa-file-export"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table" class="table table-bordered dt-responsive nowrap">
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Danh mục</th>
+                                <th>Hãng</th>
+                                <th>Tổng số đã bán</th>
+                                <th>Năm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="prod in productSold| orderBy: '-soldCount' | filter: search">
+                                <td>
+                                    <img ng-src="{{prod.image}}" height="40" referrerpolicy="no-referrer">
+                                    <p class="d-inline-block align-middle mb-0">
+                                        <b class="d-inline-block align-middle product-name">{{prod.name}}</b>
+                                        <br>
+                                    </p>
+                                </td>
+                                <td>{{prod.category.name}}</td>
+                                <td>{{prod.company.name}}</td>
+                                <td>{{prod.soldCount}}</td>
+                                <td>{{prod.year}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

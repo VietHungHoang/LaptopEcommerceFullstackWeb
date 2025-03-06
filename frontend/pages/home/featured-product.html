@@ -1,0 +1,53 @@
+<div class="home-module-three hm-1 fix pb-40">
+    <div class="container-fluid">
+        <div class="section-title module-three">
+            <h3>Bộ sưu tập hấp dẫn</h3>
+            <div class="boxx-tab">
+                <ul class="nav my-tab" role="tablist">
+                    <li role="presentation">
+                        <button class="active" type="button" id="module-one-tab" data-bs-toggle="tab"
+                            data-bs-target="#module-one" role="tab" aria-controls="module-one"
+                            aria-selected="true">Sản phẩm nổi bật</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="module-one" role="tabpanel" aria-labelledby="module-one-tab">
+                <div class="module-four-wrapper custom-seven-column row">
+                    <div class="col mb-30" ng-repeat="item in featuredProducts">
+                        <div class="product-item h-100">
+                            <div class="product-thumb">
+                                <a href="#!product">
+                                    <img ng-src="{{item.product_image}}" class="pri-img">
+                                    <img ng-src="{{item.product_image}}" class="sec-img">
+                                </a>
+                                <div class="box-label">
+                                    <div class="label-product label_sale">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="action-links">
+                                    <a href="#!wishlist" title="Wishlist"><i class="lnr lnr-heart"></i></a>
+                                    <a href="javascript:void(0);" title="Compare"><i class="lnr lnr-sync"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-caption">
+                                <div class="manufacture-product">
+                                    <p>{{item.company_name}}</p>
+                                </div>
+                                <div class="product-name">
+                                    <h4><a href="#!product">{{item.product_name}}</a></h4>
+                                </div>
+                                <div class="price-box">
+                                    <span class="regular-price">{{item.product_price|number:0}}₫</span>
+                                </div>
+                                <button class="btn-cart" type="button" ng-click="addCartFeature(item.id)">Thêm vào giỏ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

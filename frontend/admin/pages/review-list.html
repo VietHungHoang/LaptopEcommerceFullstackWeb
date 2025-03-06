@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">Danh sách đánh giá</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Trang chủ</li>
+                            <li class="breadcrumb-item">Đánh giá</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <div class="row my-3">
+                        <div class="col-sm-6 form-inline justify-content-start">
+                            <label class="pr-2">Tìm kiếm:</label>
+                            <input type="text" class="form-control" ng-model="search" placeholder="Nhập tìm kiếm..." />
+                        </div>
+                        <div class="col-sm-6 form-inline justify-content-end">
+                            <button type="button" class="btn btn-sm btn-secondary" id="saveAsExcel">
+                                <i class="fa-regular fa-file-export"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table" class="table table-bordered dt-responsive nowrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nội dung</th>
+                                <th>Điểm số</th>
+                                <th>Trạng thái</th>
+                                <th>Đăng lúc</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Tuỳ chọn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in pagingItems | filter:search">
+                                <td>{{item.id}}</td>
+                                <td>{{item.content}}</td>
+                                <td>{{item.mark}}</td>
+                                <td>
+                                    <span class="badge badge-soft-primary px-2" ng-if="item.enable == true">Đang hiển thị</span>
+                                    <span class="badge badge-soft-secondary px-2" ng-if="item.enable != true"> Đang ẩn</span>
+                                </td>
+                                <td>{{item.createdAt}}</td>
+                                <td>{{item.orderDetail.id}}</td>
+                                <td>
+                                    <a href="admin/#!/review-form" ng-click="edit(item)">
+                                        <i class="las la-pen text-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

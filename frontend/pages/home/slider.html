@@ -1,0 +1,22 @@
+<div class="slider-area">
+    <div class="slick-dot-style slider-arrow-style">
+        <slick settings="slickConfig">
+            <span ng-repeat="item in banners">
+                <div class="single-slider d-flex align-items-center">
+                    <div class="container-fluid single-slider-item">
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-8">
+                                <div class="slider-text">
+                                    <h1>{{item.name}}</h1>
+                                    <p>{{item.content}}</p>
+                                    <a class="btn-1 home-btn" href="#!shop">shop now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img ng-src="{{item.image}}" referrerpolicy="no-referrer">
+                </div>
+            </span>
+        </slick>
+    </div>
+</div>

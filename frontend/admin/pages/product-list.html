@@ -1,0 +1,84 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">Danh sách sản phẩm</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Trang chủ</li>
+                            <li class="breadcrumb-item">Sản phẩm</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row my-3">
+                        <div class="col-sm-6 form-inline justify-content-start">
+                            <label class="pr-2">Tìm kiếm:</label>
+                            <input type="text" class="form-control" ng-model="search" placeholder="Nhập tìm kiếm..." />
+                        </div>
+                        <div class="col-sm-6 form-inline justify-content-end">
+                            <button type="button" class="btn btn-sm btn-secondary" id="saveAsExcel">
+                                <i class="fa-regular fa-file-export"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table" class="table table-bordered dt-responsive nowrap">
+                        <thead>
+                            <tr>
+                                <th class="d-none">Mã SP</th>
+                                <th>Tên SP</th>
+                                <th>Giá bán</th>
+                                <th>Danh mục</th>
+                                <th>Hãng</th>
+                                <th>Giảm giá</th>
+                                <th>Người bán</th>
+                                <th>Có sẵn</th>
+                                <th>Đăng lúc</th>
+                                <th>Cập nhật lúc</th>
+                                <th>Tuỳ chọn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in pagingItems | filter:search">
+                                <td class="d-none">{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.price|number:0}}₫</td>
+                                <td>{{item.category.name}}</td>
+                                <td>{{item.company.name}}</td>
+                                <td class="text-warning">{{item.discount}}%</td>
+                                <td>{{item.user.username}}</td>
+                                <td>
+                                    <span class="badge badge-soft-primary px-2" ng-if="item.available == true">Còn
+                                        hàng</span>
+                                    <span class="badge badge-soft-secondary px-2" ng-if="item.available != true">Hết
+                                        hàng</span>
+                                </td>
+                                <td>{{item.createdAt}}</td>
+                                <td>{{item.updatedAt}}</td>
+                                <td>
+                                    <a href="admin/#!/product-form" ng-click="edit(item)">
+                                        <i class="las la-pen text-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm-6 ">Đang xem <b>{{curPage}}</b> đến <b>{{itemsPerPage}}</b> trong tổng số
+                            <b>{{items.length}}</b> mục
+                        </div>
+                        <div class="col-sm-6 pagination-sm" uib-pagination total-items="items.length" max-size="maxSize"
+                            ng-model="curPage" rotate="false"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+<div class="breadcrumb-area mb-60">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#!">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="checkout-wrapper pt-10 pb-70" ng-hide="isAuthed()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <main id="primary" class="site-main">
+                    <div class="checkout-area">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12">
+                                <div class="checkout-form">
+                                    <div class="contact2-title text-center">
+                                        <h3>Vui lòng <a href="#!login">đăng nhập</a> để thực hiện thanh toán hoá đơn
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="checkout-wrapper pt-10 pb-70" ng-init="findUserDetail()" ng-show="isAuthed()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <main id="primary" class="site-main">
+                    <div class="checkout-area">
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-7">
+                                <div class="checkout-form">
+                                    <div class="section-title left-aligned">
+                                        <h3>Chi tiết thanh toán</h3>
+                                    </div>
+                                    <form>
+                                        <div class="row g-2 mb-3">
+                                            <div class="mb-3 col-12 col-sm-12 col-md-12">
+                                                <label>
+                                                    Họ và tên <span class="text-danger">*</span>
+                                                </label>
+                                                <input class="form-control" ng-model="userid.fullname" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mb-3">
+                                            <div class="mb-3 col-12 col-sm-12 col-md-6">
+                                                <label>
+                                                    Số điện thoại <span class="text-danger">*</span>
+                                                </label>
+                                                <input class="form-control" ng-model="userid.phone" readonly>
+                                            </div>
+                                            <div class="mb-3 col-12 col-sm-12 col-md-6">
+                                                <label>
+                                                    Email <span class="text-danger">*</span>
+                                                </label>
+                                                <input class="form-control" ng-model="userid.email" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mb-3">
+                                            <div class="mb-3 col-12">
+                                                <label>
+                                                    Địa chỉ <span class="text-danger">*</span>
+                                                </label>
+                                                <input class="form-control" ng-model="userid.address" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mb-3">
+                                            <div class="form-group col-12">
+                                                <label>Ghi chú đơn hàng</label>
+                                                <textarea class="form-control"
+                                                    laceholder="Ghi chú cho đơn hàng của bạn."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row" hidden>
+                                            <div class="mb-3 col-12 col-sm-12 col-md-12">
+                                                <label>
+                                                    ID hoá đơn <span class="text-danger">*</span>
+                                                </label>
+                                                <input type="text" class="form-control" ng-model="order.id" readonly>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-5">
+                                <div class="order-summary">
+                                    <div class="section-title left-aligned">
+                                        <h3>Đơn hàng của bạn</h3>
+                                    </div>
+                                    <div class="product-container">
+                                        <div class="product-list" ng-repeat="(key, item) in cart.values">
+                                            <div class="product-inner d-flex align-items-center">
+                                                <div class="product-image me-4 me-sm-5 me-md-4 me-lg-5">
+                                                    <a href="#!product" ng-click="viewProduct($event, product)">
+                                                        <img ng-src="{{item.image}}" referrerpolicy="no-referrer">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5>{{item.name}}</h5>
+                                                    <p class="product-quantity">Số lượng: {{item.quantity}}</p>
+                                                    <p class="product-final-price">{{item.price|number:0}}₫</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="order-review">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr class="order-total">
+                                                        <th>Tổng</th>
+                                                        <td class="text-center"><strong>{{cart.total|number:0}}₫</strong></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkout-payment">
+                                        <form name="checkForm">
+                                            <div class="form-row">
+                                                <div class="form-check">
+                                                    <div class="custom-checkbox">
+                                                        <input ng-model="check" class="form-check-input" type="checkbox"
+                                                            id="terms_acceptance" required>
+                                                        <span class="checkmark"></span>
+                                                        <label class="form-check-label" for="terms_acceptance">Tôi
+                                                            đồng ý với các điều khoản dịch vụ và sẽ tuân thủ chúng
+                                                            một cách vô điều kiện.</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row justify-content-end">
+                                                <a href="javascript:void(0);" ng-click="checkout()"
+                                                    class="btn btn-secondary dark py-2" ng-disabled="checkForm.check.$pristine">Thanh toán</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>

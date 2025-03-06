@@ -1,0 +1,104 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <div class="row">
+                    <div class="col">
+                        <h4 class="page-title">Xét duyệt đơn hànng</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">Trang chủ</li>
+                            <li class="breadcrumb-item">Đơn hàng</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <div class="row my-3">
+                        <div class="col-sm-4 form-inline justify-content-start">
+                            <button ng-click="submit(2)" class="btn btn-lg btn-success" ng-show="status == 1">
+                                <i class="fas fa-check"></i> Duyệt
+                            </button>
+                            <button ng-click="submit(3)" class="btn btn-lg btn-danger ml-2" ng-show="status == 1 || status == 2">
+                                <i class="fas fa-window-close"></i> Hủy
+                            </button>
+                        </div>
+                        <div class="col-sm-4 form-inline">
+                            <label class="pr-2">Trạng thái:</label>
+                            <select class="form-control" ng-model="status" ng-init="loadOrderApproval()" ng-change="loadOrderbyStatus()">
+                                <option value="1" >Đơn chờ duyệt</option>
+                                <option value="2">Đơn đang xử lí</option>
+                                <option value="3">Đơn đã hủy</option>
+                                <option value="4">Đơn đã hoàn thành</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4 form-inline justify-content-end">
+                            <button type="button" class="btn btn-sm btn-secondary" id="saveAsExcel">
+                                <i class="fa-regular fa-file-export"></i> Excel
+                            </button>
+                        </div>
+                    </div>
+                    <table id="table" class="table table-bordered dt-responsive nowrap">
+                        <thead>
+                            <tr>
+                                <th class="d-none">ID Chi tiết</th>
+                                <th>Chi tiết</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                                <th>Trạng thái<span class="float-right">Thuộc đơn số</span></th>
+                                <th ng-show="status == 1 || status == 2" style="text-align: center;">Chọn</th>
+                                <th ng-show="status == 3 || status == 4" style="text-align: center;">Ngày cập nhật</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="item in pagingItemsApproval track by $index ">
+                            <tr>
+                                <td class="d-none">{{item.id}}</td>
+                                <td><i class="las la-folder-plus text-success" style=" font-size : 24px;" ng-click="isRowCollapsed=!isRowCollapsed"></i></td>
+                                <td>{{item.product.name}}</td>
+                                <td>{{item.quantity}}</td>
+                                <td>{{item.price|number:0}}₫</td>
+                                <td>
+                                    <span class="badge badge-soft-warning px-2" ng-if="item.status == 1">Chờ xét duyệt</span>
+                                    <span class="badge badge-soft-primary px-2" ng-if="item.status == 2">Đang xử lí</span>
+                                    <span class="badge badge-soft-danger px-2" ng-if="item.status == 3">Đã hủy</span>
+                                    <span class="badge badge-soft-success px-2" ng-if="item.status == 4">Đã hoàn thành</span>
+                                    <span class="badge badge-soft-info px-3 float-right">Đơn hàng: {{item.order.id}}</span>
+                                </td>
+                                <td ng-show="item.status == 1 || item.status ==  2" class="form-inline justify-content-center">
+                                    <input type="checkbox" id="{{item.id}}" ng-model="selectedList[item.id]" style="width: 20px; height: 20px;"/>
+                                </td>
+                                <td ng-show="status == 3 || status == 4" style="text-align: center;">
+                                    {{item.order.updatedat | date:'yyyy-MM-dd HH:mm'}}
+                                </td>
+                            </tr>
+                            <tr ng-hide="isRowCollapsed">
+                                <td class="bg-warning">Đơn hàng</td>
+                                <td >ID: {{item.order.id}}</td>
+                                <td>Người đặt: {{item.order.user.username}}</td>
+                                <td>Ngày đặt: {{item.order.createdat| date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td>Cập nhật: {{item.order.updatedat | date:'yyyy-MM-dd HH:mm'}}</td>
+                                <td class="form-inline justify-content-center">
+                                    <a href="admin/#!/orderdetail" ng-click="detail(item.order)" style="font-size: 20px;">
+                                        <i class="las la-sticky-note text-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm-6 ">Đang xem <b>{{curPage}}</b> đến <b>{{itemsPerPage}}</b> trong tổng số
+                            <b>{{items.length}}</b> mục
+                        </div>
+                        <div class="col-sm-6 pagination-sm" uib-pagination total-items="items.length" max-size="maxSize"
+                            ng-model="curPage" rotate="false"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

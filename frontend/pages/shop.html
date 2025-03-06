@@ -1,0 +1,238 @@
+<div class="breadcrumb-area mb-30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#!">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cửa hàng</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-wrapper pt-35">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="shop-sidebar-inner mb-30">
+                    <div class="single-sidebar mb-45">
+                        <div class="sidebar-inner-title mb-25">
+                            <h3>Fillter by price</h3>
+                        </div>
+                        <div class="sidebar-content-box">
+                            <!-- <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3"> -->
+                            <div class="wrapper">
+                                <div class="values">
+                                    <span id="range1" ng-model="minPrice">
+                                        4000000
+                                    </span>
+                                    <span> &dash; </span>
+                                    <span id="range2" ng-model="maxPrice">
+                                        8000000
+                                    </span>
+                                </div>
+                                <div class="range">
+                                    <div class="slider-track"></div>
+                                    <input type="range" min="2000000" max="100000000" value="7000000" id="slider-1"
+                                        oninput="slideOne()">
+                                    <input type="range" min="2000000" max="100000000" value="65000000" id="slider-2"
+                                        oninput="slideTwo()">
+                                </div>
+                                <div class="d-flex justify-content-center"><button
+                                        class="btn btn-outline-primary align-items-center">Lọc</button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-sidebar mb-45">
+                        <div class="sidebar-inner-title mb-25">
+                            <h3>Categories</h3>
+                        </div>
+                        <div class="sidebar-content-box">
+                            <div class="filter-attribute-container">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="all"
+                                        ng-click="filter()">
+                                    <label class="form-check-label" for="all" ng-click="filter()">All</label>
+                                </div>
+                                <ul ng-repeat="category in categories">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="{{category.id}}" ng-click="filter(category.name)">
+                                        <label class="form-check-label" for="{{category.id}}"
+                                            ng-click="filter(category.name)">
+                                            {{category.name}}
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-sidebar mb-45">
+                        <div class="sidebar-inner-title mb-25">
+                            <h3>Company</h3>
+                        </div>
+                        <div class="sidebar-content-box">
+                            <div class="filter-attribute-container">
+                                <ul ng-repeat="company in companies">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="{{company.name}}" ng-click="filter(company.name)">
+                                        <label class="form-check-label" for="{{company.name}}"
+                                            ng-click="filter(company.name)">
+                                            {{company.name}}
+                                        </label>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="single-sidebar mb-30">
+                    <div class="sidebar-thumb">
+                        <a href="#"><img src="assets/img/banner/img-static-sidebar.jpg" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 order-first order-lg-last">
+                <div class="product-shop-main-wrapper mb-50">
+                    <div class="shop-baner-img mb-70">
+                        <a href="#"><img src="assets/img/banner/category-image.jpg" alt=""></a>
+                    </div>
+                    <div class="shop-top-bar mb-30">
+                        <div class="row">
+                            <div class="col-md-6" hidden>
+                                <div class="pagination-area">
+                                    <p>Sort by = {{propertyName}}; reverse = {{reverse}}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="top-bar-right">
+                                    <div class="product-short">
+                                        <p>Sắp xếp theo : </p>
+                                        <span>
+                                            <button class="btn btn-outline-danger" ng-click="sortBy('name')">Tên
+                                                <span ng-show="propertyName === 'name' && !reverse"
+                                                    class="lnr lnr-arrow-up"></span>
+                                                <span ng-show="propertyName === 'name' && reverse"
+                                                    class="lnr lnr-arrow-down"></span>
+                                            </button>
+                                        </span>
+                                        <span class="ps-2">
+                                            <button class="btn btn-outline-danger" ng-click="sortBy('price')">Giá
+                                                <span ng-show="propertyName === 'price' && !reverse"
+                                                    class="lnr lnr-arrow-up"></span>
+                                                <span ng-show="propertyName === 'price' && reverse"
+                                                    class="lnr lnr-arrow-down"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" hidden>
+                                <div class="product-short">
+                                    <span>Tìm kiếm nhanh:</span> <span><input type="text" ng-model="q"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="shop-product-wrap grid row">
+                        <div class="col-lg-3 col-md-4 col-sm-6"
+                            ng-repeat="product in products| filter:q | orderBy:propertyName:reverse | startFrom:currentPage*pageSize | limitTo:pageSize">
+                            <div class=" product-item mb-30">
+                                <div class="product-thumb">
+                                    <a href="#!product" ng-click="viewProduct($event, product)">
+                                        <img ng-src="{{product.image}}" class="pri-img" alt="{{product.name}}"
+                                            referrerpolicy="no-referrer" />
+                                        <img ng-src="{{product.image}}" class="sec-img" alt="{{product.name}}"
+                                            referrerpolicy="no-referrer" />
+                                    </a>
+                                    <div class="box-label">
+                                        <div class="label-product label_new" ng-show="showLabel(product.createdAt)">
+                                            <span>mới</span>
+                                        </div>
+                                        <div class="label-product label_sale" ng-if="product.discount">
+                                            <span>-{{product.discount}}%</span>
+                                        </div>
+                                    </div>
+                                    <div class="action-links">
+                                        <a href="#!wishlist" title="Wishlist"><i class="lnr lnr-heart"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-caption">
+                                    <div class="manufacture-product">
+                                        <p><a href="#!shop">{{product.company.name}}</a></p>
+                                    </div>
+                                    <div class="product-name text-truncation">
+                                        <h4><a href="#!product"
+                                                ng-click="viewProduct($event, product)">{{product.name}}</a></h4>
+                                    </div>
+                                    <div class="price-box">
+                                        <span class="regular-price">{{product.price|number:0}}₫</span>
+                                    </div>
+                                    <button class="btn-cart" type="button" ng-click="addCart(product)">
+                                        Thêm vào giỏ
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+                        <ul class="pagination">
+                            <li class="page-item"><button class="page-link" id="btnPreShop"
+                                    ng-disabled="currentPage == 0"
+                                    ng-click="currentPage=currentPage-1">Previous</button></li>
+                            <li class="page-item">
+                                <p class="page-link" id="numPageShop">{{currentPage+1}}/{{numberOfPages()}}</p>
+                            </li>
+                            <li class="page-item"><button class="page-link" id="btnNextShop"
+                                    ng-disabled="currentPage >= getData().length/pageSize - 1"
+                                    ng-click="currentPage=currentPage+1">Next</button></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- shop page main wrapper end -->
+<!-- script range -->
+<script>
+    window.onload = function () {
+        slideOne();
+        slideTwo();
+    }
+
+    let sliderOne = document.getElementById("slider-1");
+    let sliderTwo = document.getElementById("slider-2");
+    let displayValOne = document.getElementById("range1");
+    let displayValTwo = document.getElementById("range2");
+    let minGap = 0;
+    let sliderTrack = document.querySelector(".slider-track");
+    let sliderMaxValue = document.getElementById("slider-1").max;
+
+    function slideOne() {
+        if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+            sliderOne.value = parseInt(sliderTwo.value) - minGap;
+        }
+        displayValOne.textContent = sliderOne.value;
+        fillColor();
+    }
+    function slideTwo() {
+        if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+            sliderTwo.value = parseInt(sliderOne.value) + minGap;
+        }
+        displayValTwo.textContent = sliderTwo.value;
+        fillColor();
+    }
+    function fillColor() {
+        percent1 = (sliderOne.value / sliderMaxValue) * 100;
+        percent2 = (sliderTwo.value / sliderMaxValue) * 100;
+        sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #3264fe ${percent1}% , #3264fe ${percent2}%, #dadae5 ${percent2}%)`;
+    }
+</script>

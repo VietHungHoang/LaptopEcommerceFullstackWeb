@@ -1,0 +1,969 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .rate {
+        float: left;
+        height: 46px;
+        padding: 0 10px;
+    }
+
+    .rate:not(:checked)>input {
+        position: absolute;
+        top: -9999px;
+    }
+
+    .rate:not(:checked)>label {
+        float: right;
+        width: 1em;
+        overflow: hidden;
+        white-space: nowrap;
+        cursor: pointer;
+        font-size: 30px;
+        color: #ccc;
+    }
+
+    .rate:not(:checked)>label:before {
+        content: '★ ';
+    }
+
+    .rate>input:checked~label {
+        color: #ffc700;
+    }
+
+    .rate:not(:checked)>label:hover,
+    .rate:not(:checked)>label:hover~label {
+        color: #deb217;
+    }
+
+    .rate>input:checked+label:hover,
+    .rate>input:checked+label:hover~label,
+    .rate>input:checked~label:hover,
+    .rate>input:checked~label:hover~label,
+    .rate>label:hover~input:checked~label {
+        color: #c59b08;
+    }
+</style>
+<div class="breadcrumb-area mb-70">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#!">Trang chủ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tài khoản của tôi</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-account-wrapper pb-20" ng-hide="isAuthed()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <main id="primary" class="site-main">
+                    <div class="user-dashboard pb-50">
+                        <div class="row align-items-center no-gutters">
+                            <div class="col-12 col-md-12 col-lg-12">
+                                <div class="checkout-form">
+                                    <div class="contact2-title text-center">
+                                        <h3>Vui lòng <a href="#!login">đăng nhập</a> để thực hiện các tác vụ ở trang này
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="my-account-wrapper pb-20" ng-show="isAuthed()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <main id="primary" class="site-main">
+                    <div class="user-dashboard pb-50">
+                        <div class="user-info mb-30">
+                            <div class="row align-items-center no-gutters">
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                    <div class="single-info">
+                                        <p class="user-name">Xin chào <span id="nameUser"
+                                                ng-init="loadNameLogin()"></span> <br>không
+                                            phải <span id="nameUser1"></span> ? <a class="log-out"
+                                                href="javascript:void(0)" ng-click="logout()">Đăng
+                                                xuất</a></p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                    <div class="single-info">
+                                        <p>Cần sự trợ giúp? Liên hệ: <a href="#">nghienecomm@gmail.com</a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-4 col-lg-2 col-xl-4">
+                                    <div class="single-info justify-content-lg-center">
+                                        <a class="btn btn-secondary" href="#!cart">Xem giỏ hàng</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="main-dashboard">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-2">
+                                    <ul class="nav flex-column dashboard-list" role="tablist">
+                                        <li>
+                                            <button class="nav-link" id="dashboard-tab" data-bs-toggle="tab"
+                                                data-bs-target="#dashboard" role="tab" aria-controls="dashboard"
+                                                aria-selected="false" ng-click="findProd()">Sản phẩm của tôi</button>
+                                        </li>
+                                        <li>
+                                            <button class="nav-link active" id="add-tab" data-bs-toggle="tab"
+                                                data-bs-target="#add" role="tab" aria-controls="add"
+                                                aria-selected="true" ng-click="loadTabMyProd()">Thêm sản phẩm</button>
+                                        </li>
+                                        <li>
+                                            <button class="nav-link" id="orders-tab" data-bs-toggle="tab"
+                                                data-bs-target="#orders" role="tab" aria-controls="orders"
+                                                aria-selected="false">Đơn hàng đã mua</button>
+                                        </li>
+                                        <li>
+                                            <button class="nav-link" id="orderssell-tab" data-bs-toggle="tab"
+                                                data-bs-target="#orderssell" role="tab" aria-controls="orderssell"
+                                                aria-selected="false">Đơn hàng cần xử lí</button>
+                                        </li>
+                                        <li>
+                                            <button class="nav-link" id="account-details-tab" data-bs-toggle="tab"
+                                                data-bs-target="#account-details" role="tab"
+                                                aria-controls="account-details" aria-selected="false"
+                                                ng-click="loadNameLogin()">Thông tin tài
+                                                khoản</button>
+                                        </li>
+                                        <li>
+                                            <button class="nav-link" id="changepass-tab" data-bs-toggle="tab"
+                                                data-bs-target="#changepass" role="tab" aria-controls="changepass"
+                                                aria-selected="false">Đổi mật khẩu</button>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="javascript:void(0)" ng-click="logout()">Đăng
+                                                xuất</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+                                    <div class="tab-content dashboard-content">
+                                        <div id="dashboard" class="tab-pane fade" role="tabpanel"
+                                            aria-labelledby="dashboard-tab">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="h3">Sản phẩm của tôi </span>
+                                                <button class="lnr lnr-sync btn btn-outline-primary m-2"
+                                                    ng-click="findProd()"></button>
+                                            </div>
+                                            <hr>
+                                            <table class="table  table-bordered dt-responsive nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 15%">Loại sản phẩm</th>
+                                                        <th>Hãng</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Giá</th>
+                                                        <th>Số lượng</th>
+                                                        <th style="width: 15%; text-align: center;">Ảnh</th>
+                                                        <th style="text-align: center">Tuỳ chọn</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in productByUserId">
+                                                        <td hidden>{{item.id}}</td>
+                                                        <td>{{item.category.name}}</td>
+                                                        <td>{{item.company.name}}</td>
+                                                        <td>{{item.name}}</td>
+                                                        <td>{{item.price|number:0}}₫</td>
+                                                        <td>{{item.quantity}}</td>
+                                                        <td>
+                                                            <img ng-src="{{item.image}}" width="100%">
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <div class="d-flex justify-content-around">
+                                                                <button class="btn btn-outline-danger"
+                                                                    ng-click="edit(item)">
+                                                                    <i class="lnr lnr-pencil"></i>
+                                                                </button>
+                                                                <button class="btn btn-outline-success"
+                                                                    ng-click="deleteProd(item)">
+                                                                    <i class="lnr lnr-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div id="add" class="tab-pane fade show active" role="tabpanel"
+                                            aria-labelledby="add-tab">
+                                            <h3>Thêm sản phẩm</h3>
+                                            <form name="formAddProd">
+                                                <input type="text" ng-model="product.user" hidden>
+                                                <div class="form-group row mb-3">
+                                                    <label
+                                                        class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Loại
+                                                        sản phẩm</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <select class="form-control" ng-model="product.category">
+                                                            <option ng-repeat='item in cates' ng-value="{{item.id}}">
+                                                                {{item.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label
+                                                        class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Hãng</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <select class="form-control" ng-model="product.company">
+                                                            <option ng-repeat='item in companys' ng-value="{{item.id}}">
+                                                                {{item.name}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Tên
+                                                        sản phẩm</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <div class="input-group">
+                                                            <input type="text" name="txtName" class="form-control"
+                                                                ng-model="product.name" required>
+                                                            <span class="input-group-text text-danger"
+                                                                title="Hãy nhập tên sản phẩm"
+                                                                ng-show="formAddProd.txtName.$invalid"><span
+                                                                    class="lnr lnr-warning"></span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label
+                                                        class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Giá</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <div class="input-group">
+                                                            <input type="number" name="txtPrice" class="form-control"
+                                                                ng-model="product.price" min="0" required>
+                                                            <span class="input-group-text text-danger"
+                                                                title="Hãy nhập giá sản phẩm"
+                                                                ng-show="formAddProd.txtPrice.$invalid"><span
+                                                                    class="lnr lnr-warning"></span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Số
+                                                        lượng</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <div class="input-group">
+                                                            <input type="number" name="txtQty" class="form-control"
+                                                                ng-model="product.quantity" min="0" required>
+                                                            <span class="input-group-text text-danger"
+                                                                title="Hãy nhập số lượng sản phẩm"
+                                                                ng-show="formAddProd.txtQty.$invalid"><span
+                                                                    class="lnr lnr-warning"></span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3" hidden>
+                                                    <label
+                                                        class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Giảm
+                                                        giá</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <input type="number" class="form-control"
+                                                            ng-model="product.discount" min="0" placeholder="0"
+                                                            disabled />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Mô
+                                                        tả</label>
+                                                    <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                        <div class="input-group">
+                                                            <textarea rows="2" class="form-control" name="txtDes"
+                                                                ng-init="product.description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'"
+                                                                ng-model="product.description" required></textarea>
+                                                            <span class="input-group-text text-danger"
+                                                                title="Hãy nhập mô tả cho sản phẩm"
+                                                                ng-show="formAddProd.txtDes.$invalid"><span
+                                                                    class="lnr lnr-warning"></span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row mb-3">
+                                                    <label
+                                                        class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Ảnh</label>
+                                                    <div class="col-11 col-sm-11 col-md-7 col-lg-5">
+                                                        <input type="file" class="form-control" accept="image/*"
+                                                            multiple required>
+                                                        <div id="myDIV"></div>
+                                                        <input type="text" ng-model="product.image" id="imgs" hidden>
+                                                    </div>
+                                                    <div class="col-1 col-sm-1 col-md-1 col-lg-1 col-form-label" title="Thứ lỗi vì điều này. Hãy sắp xếp file ảnh theo thứ tự có trong thiết bị rồi sau đó mới chọn ảnh.">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-exclamation-circle text-warning"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                            <path
+                                                                d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="register-box d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-secondary" ng-show="!index"
+                                                        ng-click="createProd()"
+                                                        ng-disabled="formAddProd.$invalid">Thêm</button>
+                                                    <button type="submit" class="btn btn-secondary" ng-show="index"
+                                                        ng-click="updateProd()">Cập nhật</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="orders" class="tab-pane fade" role="tabpanel"
+                                            ng-controller="order-ctrl" aria-labelledby="orders-tab">
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                    <button class="nav-link active" id="nav-processing-tab1"
+                                                        data-bs-toggle="tab" data-bs-target="#nav-processing1"
+                                                        type="button" role="tab" aria-controls="nav-processing"
+                                                        aria-selected="true">Đang xử lí</button>
+                                                    <button class="nav-link" id="nav-finished-tab1" data-bs-toggle="tab"
+                                                        data-bs-target="#nav-finished1" type="button" role="tab"
+                                                        aria-controls="nav-finished" aria-selected="false">Đã hoàn
+                                                        thành</button>
+                                                    <button class="nav-link" id="nav-cancel-tab1" data-bs-toggle="tab"
+                                                        data-bs-target="#nav-cancel1" type="button" role="tab"
+                                                        aria-controls="nav-cancel" aria-selected="false">Đơn bị
+                                                        hủy</button>
+                                                    <button class="nav-link" id="nav-reviewed-tab1" data-bs-toggle="tab"
+                                                        data-bs-target="#nav-reviewed" type="button" role="tab"
+                                                        aria-controls="nav-reviewed" aria-selected="false">Đã đánh
+                                                        giá</button>
+                                                </div>
+                                            </nav>
+                                            <div class="tab-content" id="nav-tabContent">
+                                                <div class="tab-pane fade show active" id="nav-processing1"
+                                                    role="tabpanel" aria-labelledby="nav-processing-tab1"
+                                                    ng-init="loadOrderData()">
+                                                    <div class="table-responsive">
+                                                        <table class="table ">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Chi tiết</th>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Người đặt</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Tổng tiền</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody
+                                                                ng-repeat="item in orders | orderBy : '+id' | filter : {status:1}">
+                                                                <tr>
+                                                                    <td><i class="lnr lnr-chevron-down-circle"
+                                                                            style=" font-size : 24px;"
+                                                                            ng-click="isRowCollapsed=!isRowCollapsed"></i>
+                                                                    </td>
+                                                                    <td>{{item.id}}</td>
+                                                                    <td>{{item.user.username}}</td>
+                                                                    <td>{{item.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                    </td>
+                                                                    <td>{{item.totalPrice | number:0}}</td>
+                                                                    <td class="align-middle" colspan="2">
+                                                                        <a class="btn btn-dark" href="#!/orderdetail"
+                                                                            ng-click="detail(item)"> Xem chi tiết</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="detail in item.detail"
+                                                                    ng-hide="isRowCollapsed">
+                                                                    <td class="bg-warning">Sản phẩm</td>
+                                                                    <td>Tên SP: {{detail.product.name}}</td>
+                                                                    <td>Giảm giá: {{detail.product.discount}}%</td>
+                                                                    <td>Giá bán: {{detail.product.price| number:0}}/1 SP
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class="badge bg-warning px-2"
+                                                                            ng-if="detail.status == 1">Chờ xét
+                                                                            duyệt</span>
+                                                                        <span class="badge bg-primary px-2"
+                                                                            ng-if="detail.status == 2">Đang xử lí</span>
+                                                                        <span class="badge bg-danger px-2"
+                                                                            ng-if="detail.status == 3">Đã hủy</span>
+                                                                        <span class="badge bg-success px-2"
+                                                                            ng-if="detail.status == 4">Đã hoàn
+                                                                            thành</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a class="btn btn-sm btn-success"
+                                                                            ng-if="detail.status == 2 "
+                                                                            ng-click="confirmOrderFinish(detail)">Đã
+                                                                            nhận
+                                                                            hàng</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="nav-finished1" role="tabpanel"
+                                                    aria-labelledby="nav-finished-tab1"
+                                                    ng-init="loadOrderDetailByStatus(4)">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Thành tiền</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th class="text-center">Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr
+                                                                ng-repeat="item in orderFinish | filter : {reviewed : false}">
+                                                                <td>{{item.order.id}}</td>
+                                                                <td>{{item.product.name}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.price | number : 0}}</td>
+                                                                <td>{{item.order.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge bg-warning px-2"
+                                                                        ng-if="item.status == 1">Chờ xét duyệt</span>
+                                                                    <span class="badge bg-primary px-2"
+                                                                        ng-if="item.status == 2">Đang xử lí</span>
+                                                                    <span class="badge bg-danger px-2"
+                                                                        ng-if="item.status == 3">Đã hủy</span>
+                                                                    <span class="badge bg-success px-2"
+                                                                        ng-if="item.status == 4">Đã hoàn thành</span>
+                                                                </td>
+                                                                <td class="align-middle">
+                                                                    <a class="btn btn-dark btn-sm" href="#!/orderdetail"
+                                                                        ng-click="detail(item.order)">Chi tiết</a>
+                                                                    <a class="btn btn-info btn-sm"
+                                                                        ng-click="preLoadModal(item)"> Đánh giá</a>
+                                                                    <!-- ................................................................................. -->
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="nav-cancel1" role="tabpanel"
+                                                    aria-labelledby="nav-cancel-tab1"
+                                                    ng-init="loadOrderDetailByStatus(3)">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Thành tiền</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr ng-repeat="item in orderCancel">
+                                                                <td>{{item.order.id}}</td>
+                                                                <td>{{item.product.name}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.price | number : 0}}</td>
+                                                                <td>{{item.order.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge bg-warning px-2"
+                                                                        ng-if="item.status == 1">Chờ xét duyệt</span>
+                                                                    <span class="badge bg-primary px-2"
+                                                                        ng-if="item.status == 2">Đang xử lí</span>
+                                                                    <span class="badge bg-danger px-2"
+                                                                        ng-if="item.status == 3">Đã hủy</span>
+                                                                    <span class="badge bg-success px-2"
+                                                                        ng-if="item.status == 4">Đã hoàn thành</span>
+                                                                </td>
+                                                                <td class="align-middle ">
+                                                                    <a class="btn btn-dark" href="javascript:void(0)"
+                                                                        ng-click="addCart(item.product)"> Đặt lại</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="nav-reviewed" role="tabpanel"
+                                                    aria-labelledby="nav-cancel-tab1"
+                                                    ng-init="loadOrderDetailByStatus(4)">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Thành tiền</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr
+                                                                ng-repeat="item in orderFinish | filter : {reviewed : true}">
+                                                                <td>{{item.order.id}}</td>
+                                                                <td>{{item.product.name}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.price | number : 0}}</td>
+                                                                <td>{{item.order.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge bg-warning px-2"
+                                                                        ng-if="item.status == 1">Chờ xét duyệt</span>
+                                                                    <span class="badge bg-primary px-2"
+                                                                        ng-if="item.status == 2">Đang xử lí</span>
+                                                                    <span class="badge bg-danger px-2"
+                                                                        ng-if="item.status == 3">Đã hủy</span>
+                                                                    <span class="badge bg-success px-2"
+                                                                        ng-if="item.status == 4">Đã hoàn thành</span>
+                                                                </td>
+                                                                <td class="align-middle ">
+                                                                    <a class="btn btn-dark" href="javascript:void(0)"
+                                                                        ng-click="addCart(item.product)"> Đặt lại</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div id="orderssell" class="tab-pane fade" role="tabpanel"
+                                            ng-controller="order-ctrl" aria-labelledby="orderssell-tab">
+                                            <nav>
+                                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                    <button class="nav-link active" id="nav-processing-tab"
+                                                        data-bs-toggle="tab" data-bs-target="#nav-processing"
+                                                        type="button" role="tab" aria-controls="nav-processing"
+                                                        aria-selected="true">Đang xử lí</button>
+                                                    <button class="nav-link" id="nav-finished-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#nav-finished" type="button" role="tab"
+                                                        aria-controls="nav-finished" aria-selected="false">Đã hoàn
+                                                        thành</button>
+                                                    <button class="nav-link" id="nav-cancel-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#nav-cancel" type="button" role="tab"
+                                                        aria-controls="nav-cancel" aria-selected="false">Đơn bị
+                                                        hủy</button>
+                                                </div>
+                                            </nav>
+                                            <div class="tab-content" id="nav-tabContent">
+                                                <div class="tab-pane fade show active" id="nav-processing"
+                                                    role="tabpanel" aria-labelledby="nav-processing-tab"
+                                                    ng-init="loadOrderSellerData()">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Thành tiền</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr
+                                                                ng-repeat="item in orderseller | filter : filterSellerOrder">
+                                                                <td>{{item.order.id}}</td>
+                                                                <td>{{item.product.name}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.price | number : 0}}</td>
+                                                                <td>{{item.order.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge bg-warning px-2"
+                                                                        ng-if="item.status == 1">Chờ xét duyệt</span>
+                                                                    <span class="badge bg-primary px-2"
+                                                                        ng-if="item.status == 2">Đang xử lí</span>
+                                                                    <span class="badge bg-danger px-2"
+                                                                        ng-if="item.status == 3">Đã hủy</span>
+                                                                    <span class="badge bg-success px-2"
+                                                                        ng-if="item.status == 4">Đã hoàn thành</span>
+                                                                </td>
+                                                                <td class="align-middle ">
+                                                                    <a class="btn btn-dark" href="#!/orderdetail"
+                                                                        ng-click="detail(item.order)"> Xem chi tiết</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="nav-finished" role="tabpanel"
+                                                    aria-labelledby="nav-finished-tab">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Thành tiền</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr ng-repeat="item in orderseller | filter : {status : 4}">
+                                                                <td>{{item.order.id}}</td>
+                                                                <td>{{item.product.name}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.price | number : 0}}</td>
+                                                                <td>{{item.order.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge bg-warning px-2"
+                                                                        ng-if="item.status == 1">Chờ xét duyệt</span>
+                                                                    <span class="badge bg-primary px-2"
+                                                                        ng-if="item.status == 2">Đang xử lí</span>
+                                                                    <span class="badge bg-danger px-2"
+                                                                        ng-if="item.status == 3">Đã hủy</span>
+                                                                    <span class="badge bg-success px-2"
+                                                                        ng-if="item.status == 4">Đã hoàn thành</span>
+                                                                </td>
+                                                                <td class="align-middle ">
+                                                                    <a class="btn btn-dark" href="#!/orderdetail"
+                                                                        ng-click="detail(item.order)"> Xem chi tiết</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade" id="nav-cancel" role="tabpanel"
+                                                    aria-labelledby="nav-cancel-tab">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Mã đơn hàng</th>
+                                                                    <th>Tên sản phẩm</th>
+                                                                    <th>Số lượng</th>
+                                                                    <th>Thành tiền</th>
+                                                                    <th>Ngày đặt</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tr ng-repeat="item in orderseller | filter : {status : 3}">
+                                                                <td>{{item.order.id}}</td>
+                                                                <td>{{item.product.name}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.price | number : 0}}</td>
+                                                                <td>{{item.order.createdat | date: 'yyyy/MM/dd HH:mm'}}
+                                                                </td>
+                                                                <td>
+                                                                    <span class="badge bg-warning px-2"
+                                                                        ng-if="item.status == 1">Chờ xét duyệt</span>
+                                                                    <span class="badge bg-primary px-2"
+                                                                        ng-if="item.status == 2">Đang xử lí</span>
+                                                                    <span class="badge bg-danger px-2"
+                                                                        ng-if="item.status == 3">Đã hủy</span>
+                                                                    <span class="badge bg-success px-2"
+                                                                        ng-if="item.status == 4">Đã hoàn thành</span>
+                                                                </td>
+                                                                <td class="align-middle ">
+                                                                    <a class="btn btn-dark" href="#!/orderdetail"
+                                                                        ng-click="detail(item.order)"> Xem chi tiết</a>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div id="account-details" class="tab-pane fade" role="tabpanel"
+                                            aria-labelledby="account-details-tab">
+                                            <h3>Thông tin tài khoản </h3>
+                                            <div class="login-form">
+                                                <form name="formInfoUser">
+                                                    <div class="form-group row mb-3 d-none">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">ID</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <input type="text" class="form-control"
+                                                                ng-model="userdata.id" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Tài
+                                                            khoản</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <input type="text" class="form-control"
+                                                                ng-model="userdata.username" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3 align-items-center">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Mật
+                                                            khẩu</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="password" name="txtPass"
+                                                                    class="form-control" ng-model="userdata.password"
+                                                                    placeholder="**************" required>
+                                                                <span class="input-group-text text-danger"
+                                                                    title="Hãy nhập lại mật khẩu hoặc nhập khác để thay đổi"
+                                                                    ng-show="formInfoUser.txtPass.$invalid"><span
+                                                                        class="lnr lnr-warning lh-lg"></span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Họ
+                                                            và tên</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="text" name="txtLN" class="form-control"
+                                                                    ng-model="userdata.fullname" required>
+                                                                <span class="input-group-text text-danger"
+                                                                    title="Hãy nhập họ và tên của bạn"
+                                                                    ng-show="formInfoUser.txtLN.$invalid"><span
+                                                                        class="lnr lnr-warning lh-lg"></span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Số
+                                                            điện thoại</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="text" name="txtPhone" class="form-control"
+                                                                    ng-model="userdata.phone" required>
+                                                                <span class="input-group-text text-danger"
+                                                                    title="Hãy nhập số điện thoại của bạn"
+                                                                    ng-show="formInfoUser.txtPhone.$invalid"><span
+                                                                        class="lnr lnr-warning lh-lg"></span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Địa
+                                                            chỉ</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="text" name="txtAdre" class="form-control"
+                                                                    ng-model="userdata.address" required>
+                                                                <span class="input-group-text text-danger"
+                                                                    title="Hãy nhập đại chỉ của bạn"
+                                                                    ng-show="formInfoUser.txtAdre.$invalid"><span
+                                                                        class="lnr lnr-warning lh-lg"></span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Email</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <div class="input-group">
+                                                                <input type="email" name="txtEmail" class="form-control"
+                                                                    ng-model="userdata.email" required>
+                                                                <span class="input-group-text text-danger"
+                                                                    title="Hãy nhập email của bạn"
+                                                                    ng-show="formInfoUser.txtEmail.$invalid"><span
+                                                                        class="lnr lnr-warning lh-lg"></span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Ngày
+                                                            sinh</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <input type="date" class="form-control"
+                                                                ng-model="userdata.birthday" placeholder="YYYY-MM-DD"
+                                                                convert-date>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-check row p-0 mt-3">
+                                                        <div
+                                                            class="col-12 col-sm-12 col-md-8 offset-md-4 col-lg-6 offset-lg-3">
+                                                            <div class="custom-checkbox">
+                                                                <input class="form-check-input" type="checkbox">
+                                                                <span class="checkmark"></span>
+                                                                <label class="form-check-label">Đăng ký nhận ưu đãi từ
+                                                                    chúng tôi</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="register-box d-flex justify-content-end">
+                                                        <button type="submit" class="btn btn-secondary"
+                                                            ng-click="updateInfo()"
+                                                            ng-disabled="formInfoUser.$invalid">Cập nhật</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="changepass" class="tab-pane fade" role="tabpanel"
+                                            aria-labelledby="changepass-tab">
+                                            <h3>Thông tin tài khoản </h3>
+                                            <div class="login-form">
+                                                <form action="#">
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Mật
+                                                            khẩu hiện tại</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <input type="password" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Mật
+                                                            khẩu mới</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <input type="password" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row mb-3">
+                                                        <label
+                                                            class="col-12 col-sm-12 col-md-4 col-lg-3 col-form-label">Xác
+                                                            nhận mật khẩu mới</label>
+                                                        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+                                                            <input type="password" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="register-box my-4">
+                                                        <button type="submit" class="btn btn-secondary px-4 py-1">Cập
+                                                            nhật</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" ng-controller="order-ctrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Đánh giá sản phẩm</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row">
+                            <div style="background-color: #eee;">
+                                <div class="row justify-content-center">
+                                    <div class="col py-2">
+                                        <div class="card text-black">
+                                            <img id="review-image" class="card-img-top" alt="NghiệnDT" />
+                                            <div class="card-body">
+                                                <div class="text-center">
+                                                    <p class="text-muted mb-4" id="review-proname"></p>
+                                                </div>
+                                                <div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <span>Giá</span><span id="review-proprice"></span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <span>Số lượng</span><span
+                                                            id="review-proquantity"></span></span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="d-flex justify-content-between total font-weight-bold mt-4">
+                                                    <span>Tổng</span><span id="review-prototal"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 align-bottom justify-content-center py-5">
+                        <div class="row green-border-focus">
+                            <label for="content-review" class="form-label">Góp ý: </label>
+                            <input id="detail-id" class="from-control" />
+                            <textarea id="content-review" class="form-control" ng-model="itemReview.content"
+                                rows="5"></textarea>
+                        </div>
+                        <div class="mt-3">Độ hài lòng:</div>
+                        <div class="rate">
+                            <input type="radio" ng-model="itemReview.mark" id="star5" name="rate" ng-value="10" />
+                            <label for="star5">5 stars</label>
+                            <input type="radio" ng-model="itemReview.mark" id="star4" name="rate" ng-value="8" />
+                            <label for="star4">4 stars</label>
+                            <input type="radio" ng-model="itemReview.mark" id="star3" name="rate" ng-value="6" />
+                            <label for="star3">3 stars</label>
+                            <input type="radio" ng-model="itemReview.mark" id="star2" name="rate" ng-value="4" />
+                            <label for="star2">2 stars</label>
+                            <input type="radio" ng-model="itemReview.mark" id="star1" name="rate" ng-value="2" />
+                            <label for="star1">1 star</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a class="btn btn-success" ng-click="finish()">Gửi đánh giá</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+    const nextBtn = document.querySelectorAll(".btnNext");
+    const prevBtn = document.querySelectorAll(".btnPrev");
+
+    nextBtn.forEach(function (item, index) {
+        item.addEventListener('click', function () {
+            let id = index + 1;
+            let tabElement = document.querySelectorAll("#myTab li a")[id];
+            var lastTab = new bootstrap.Tab(tabElement);
+            lastTab.show();
+        });
+    });
+
+    prevBtn.forEach(function (item, index) {
+        item.addEventListener('click', function () {
+            let id = index;
+            let tabElement = document.querySelectorAll("#myTab li a")[id];
+            var lastTab = new bootstrap.Tab(tabElement);
+            lastTab.show();
+        });
+    });
+</script>

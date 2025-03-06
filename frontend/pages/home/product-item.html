@@ -1,0 +1,33 @@
+<div class="product-item">
+    <div class="product-thumb">
+        <a href="#!product" ng-click="viewProduct($event, product)">
+            <img ng-src="{{product.image}}" class="pri-img" alt="{{product.name}}" referrerpolicy="no-referrer" />
+            <img ng-src="{{product.image}}" class="sec-img" alt="{{product.name}}" referrerpolicy="no-referrer" />
+        </a>
+        <div class="box-label">
+            <div class="label-product label_new">
+                <span>mới</span>
+            </div>
+            <div class="label-product label_sale" ng-if="product.discount">
+                <span>-{{product.discount}}%</span>
+            </div>
+        </div>
+        <div class="action-links">
+            <a href="#!wishlist" title="Wishlist"><i class="lnr lnr-heart"></i></a>
+        </div>
+    </div>
+    <div class="product-caption">
+        <div class="manufacture-product">
+            <p><a href="#!shop">{{product.company.name}}</a></p>
+        </div>
+        <div class="product-name">
+            <h4><a href="#!product" ng-click="viewProduct($event, product)">{{product.name}}</a></h4>
+        </div>
+        <div class="price-box">
+            <span class="regular-price">{{product.price|number:0}}₫</span>
+        </div>
+        <button class="btn-cart" type="button" ng-click="addCart(product)">
+            Thêm vào giỏ
+        </button>
+    </div>
+</div>
